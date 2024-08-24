@@ -10,14 +10,8 @@
     <properties>
         <build.number>SNAPSHOT</build.number>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <easyb.version>1.4</easyb.version>
-        <cobertura.version>2.6</cobertura.version>
-        <!-- A workaround for a bug in PMD -->
         <sourceJdk>1.8</sourceJdk>
         <targetJdk>1.8</targetJdk>
-        <github.account>SeshagiriSriram</github.account>
-        <thucydides.version>0.9.268</thucydides.version>
-        <jelastic.context>addressbook</jelastic.context>
     </properties>
 
     <scm>
@@ -25,62 +19,64 @@
         <developerConnection>scm:git:git@github.com:${github.account}/addressbook.git</developerConnection>
         <url>scm:git:git@github.com:${github.account}/addressbook.git</url>
     </scm>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>vaadin-snapshots</id>
-            <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-		 <pluginRepository>
-        <id>apache.snapshots</id>
-        <name>Apache Snapshots</name>
-        <url>http://repository.apache.org/content/groups/snapshots-group/</url>
-        <releases>
-            <enabled>false</enabled>
-        </releases>
-        <snapshots>
-            <enabled>true</enabled>
-        </snapshots>
-    </pluginRepository>
-	<pluginRepository>
-        <id>apache.public</id>
-        <name>Apache public</name>
-        <url>http://repository.apache.org/content/groups/public</url>
-        <releases>
-            <enabled>true</enabled>
-        </releases>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </pluginRepository>
-    </pluginRepositories>
 
-
-	
-<build>
+    <build>
+        <finalName>addressbook</finalName>
         <plugins>
-           <plugin>
-	<groupId>org.apache.tomcat.maven</groupId>
-	<artifactId>tomcat7-maven-plugin</artifactId>
-	<version>2.2</version>
-	<configuration>
-		<url>http://192.168.56.104:8080/manager/text</url>
-		<server>tomcat7server</server>
-		<path>/addressbook</path>
-		<update>true</update>
-	</configuration>
-	</plugin>
-</plugins>
-</build> 
+            <!-- Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${sourceJdk}</source>
+                    <target>${targetJdk}</target>
+                </configuration>
+            </plugin>
 
- <modules>
+            <!-- Tomcat Maven Plugin -->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://192.168.56.104:8080/manager/text</url>
+                    <server>tomcat7server</server>
+                    <path>/addressbook</path>
+                    <update>true</update>
+                </configuration>
+            </plugin>
+
+            <!-- Eclipse Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                    <wtpversion>2.0</wtpversion>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Edureka Releases Nexus Repository</name>
+            <url>http://13.212.71.229:9980/edureka/repository/releases/</url>
+        </repository>
+        
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Edureka Snapshot Nexus Repository</name>
+            <url>http://13.212.71.229:9980/edureka/repository/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <modules>
         <module>addressbook_main</module>
     </modules>
-
 
 </project>
